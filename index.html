@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oliver Tewalt — Cybersecurity Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── RESET & BASE ────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0c10;
+      --surface:   #111318;
+      --surface2:  #181c23;
+      --border:    #1e2330;
+      --blue:      #3b82f6;
+      --blue-dim:  #1d4ed8;
+      --blue-glow: rgba(59,130,246,0.15);
+      --gray:      #6b7280;
+      --gray-light:#9ca3af;
+      --text:      #e2e8f0;
+      --text-dim:  #94a3b8;
+      --mono:      'Space Mono', monospace;
+      --sans:      'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ───────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: 0.4;
+    }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: rgba(10,12,16,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      color: var(--blue);
+      letter-spacing: 0.05em;
+    }
+
+    .nav-links { display: flex; gap: 0.5rem; }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      text-decoration: none;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--blue);
+      border-color: var(--blue);
+      background: var(--blue-glow);
+    }
+
+    /* ── HERO ────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 2.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Grid lines background */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 40%, transparent 100%);
+    }
+
+    /* Glow orb */
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+      left: -150px; top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .hero-inner { max-width: 900px; position: relative; }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--blue);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    h1 {
+      font-family: var(--mono);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.35s forwards;
+    }
+
+    h1 span { color: var(--blue); }
+
+    .hero-quote {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      font-style: italic;
+      max-width: 540px;
+      margin-bottom: 2.5rem;
+      border-left: 2px solid var(--blue);
+      padding-left: 1.2rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.65s forwards;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.75rem 1.6rem;
+      border-radius: 3px;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border: 1px solid var(--blue);
+    }
+    .btn-primary:hover {
+      background: var(--blue-dim);
+      box-shadow: 0 0 20px rgba(59,130,246,0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--gray-light);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: var(--blue-glow);
+    }
+
+    /* ── SECTION BASE ────────────────────────────────── */
+    section { padding: 6rem 2.5rem; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--blue);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      font-family: var(--mono);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ───────────────────────────────────────── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 700px) {
+      #about .about-grid { grid-template-columns: 1fr; }
+    }
+
+    .about-text { color: var(--text-dim); font-size: 1.02rem; }
+    .about-text p { margin-bottom: 1rem; }
+
+    .cred-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .cred-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .cred-card:hover { border-color: var(--blue); }
+
+    .cred-icon {
+      font-size: 1.3rem;
+      width: 2.2rem; text-align: center;
+    }
+
+    .cred-title {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--text);
+    }
+
+    .cred-sub {
+      font-size: 0.78rem;
+      color: var(--gray);
+    }
+
+    /* ── PROJECTS ────────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+      text-decoration: none;
+      display: flex; flex-direction: column;
+    }
+
+    .project-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-3px);
+    }
+
+    .project-thumb {
+      height: 160px;
+      background: var(--surface2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+
+    .project-thumb-icon {
+      font-size: 3rem;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+    }
+
+    .project-card:hover .project-thumb-icon { opacity: 0.7; }
+
+    .project-thumb-label {
+      position: absolute; bottom: 0.75rem; right: 0.75rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--blue);
+      background: rgba(10,12,16,0.8);
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      border: 1px solid var(--blue);
+    }
+
+    .project-body { padding: 1.4rem; flex: 1; display: flex; flex-direction: column; }
+
+    .project-title {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      flex: 1;
+      margin-bottom: 1.1rem;
+    }
+
+    .project-link {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--blue);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+
+    /* ── CAPSTONE SECURITY (disappears Apr 25) ───────── */
+    #capstone {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      max-width: 1100px;
+      margin: 0 auto 6rem;
+    }
+
+    #capstone::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    .capstone-header {
+      display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+    }
+
+    .capstone-badge {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+      padding: 0.2rem 0.6rem;
+      border-radius: 3px;
+    }
+
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .security-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.2rem;
+    }
+
+    .security-card h4 {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--blue);
+      margin-bottom: 0.5rem;
+    }
+
+    .security-card p {
+      font-size: 0.83rem;
+      color: var(--text-dim);
+    }
+
+    /* ── CONTACT ─────────────────────────────────────── */
+    #contact {
+      border-top: 1px solid var(--border);
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 700px) {
+      .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+    }
+
+    .contact-blurb {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .email-btn {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.85rem 1.4rem;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .email-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .captcha-note {
+      font-size: 0.75rem;
+      color: var(--gray);
+      margin-top: 0.6rem;
+      font-family: var(--mono);
+    }
+
+    .socials { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .social-link {
+      display: flex; align-items: center; gap: 1rem;
+      text-decoration: none;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      background: var(--surface);
+      transition: all 0.2s;
+    }
+
+    .social-link:hover {
+      border-color: var(--blue);
+      color: var(--text);
+      background: var(--blue-glow);
+    }
+
+    .social-icon {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--blue);
+      width: 5rem;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--gray);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────── -->
+<nav>
+  <div class="nav-logo">// OLIVER TEWALT</div>
+  <div class="nav-links">
+    <a href="#about"    id="nav-about">About</a>
+    <a href="#projects" id="nav-projects">Projects</a>
+    <a href="#contact"  id="nav-contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-inner">
+    <p class="hero-tag">// Cybersecurity &amp; Development</p>
+    <h1>OLIVER<br><span>TEWALT</span><br>HERE.</h1>
+    <p class="hero-quote">
+      "Starting imperfectly is better than never starting at all. May those who can only speak continue to do so while those who can build, build."
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">↓ Contact</a>
+      <a href="#projects" class="btn btn-outline">View Projects</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ─────────────────────────────────── -->
+<section id="about">
+  <p class="section-label">// 01 — About</p>
+  <h2>Who I Am</h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm a cybersecurity-focused developer who believes the best way to demonstrate
+        technical ability is to build things — not list them. This site is a working example
+        of that philosophy.
+      </p>
+      <p>
+        I focus on the intersection of <strong style="color:var(--text)">security</strong>
+        and <strong style="color:var(--text)">practical software development</strong>: building
+        tools that do real work while being hosted responsibly.
+      </p>
+      <p>
+        <!-- Add your own background, focus areas, or story here. -->
+        Add your own background here. Keep it short — one or two paragraphs max.
+        Let the work speak louder than the words.
+      </p>
+    </div>
+
+    <div class="cred-list reveal">
+      <div class="cred-card">
+        <div class="cred-icon">🔐</div>
+        <div>
+          <div class="cred-title">CompTIA Network+</div>
+          <div class="cred-sub">Certification — in progress</div>
+        </div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">🛡️</div>
+        <div>
+          <div class="cred-title">Cybersecurity Capstone</div>
+          <div class="cred-sub">Sophomore Project for Spring 2026</div>
+        </div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">☁️</div>
+        <div>
+          <div class="cred-title">Static Hosting + Cloudflare</div>
+          <div class="cred-sub">DDoS protection, TLS, secure DNS</div>
+        </div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">🤖</div>
+        <div>
+          <div class="cred-title">Media Manager of WAR 7183</div>
+          <div class="cred-sub">Handles Robotics Team Social Media</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ───────────────────────────────── -->
+<section id="projects">
+  <p class="section-label">// 02 — Projects</p>
+  <h2>What I've Built</h2>
+  <div class="projects-grid">
+
+    <!-- PROJECT 1: Portfolio / Stock Analyzer -->
+    <a href="https://tewaltrebalance.streamlit.app" target="_blank" rel="noopener" class="project-card reveal">
+      <div class="project-thumb">
+        <div class="project-thumb-icon">📈</div>
+        <span class="project-thumb-label">LIVE TOOL</span>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Portfolio Drift Analyzer</div>
+        <p class="project-desc">
+          Monitors your investment portfolio for drift from target allocation.
+          Helps you make data-driven rebalancing decisions — so your money
+          works harder, not just differently.
+        </p>
+        <span class="project-link">Open tool →</span>
+      </div>
+    </a>
+
+    <!-- PROJECT 2: Website Auditor -->
+    <a href="#" target="_blank" rel="noopener" class="project-card reveal">
+      <div class="project-thumb">
+        <div class="project-thumb-icon">🔍</div>
+        <span class="project-thumb-label">IN DEVELOPMENT</span>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Website Auditor</div>
+        <p class="project-desc">
+          Analyzes frontend performance and flags potential weaknesses — things
+          most audits miss. Scans for Core Web Vitals, security headers, and
+          surface-level vulnerabilities.
+        </p>
+        <span class="project-link">View tool →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ── CAPSTONE SECURITY SECTION (hides Apr 25) ── -->
+<div id="capstone">
+  <div class="capstone-header">
+    <p class="section-label" style="margin:0">// 03 — Security Overview</p>
+    <span class="capstone-badge">Capstone</span>
+    <span id="capstone-countdown" style="font-family:var(--mono);font-size:0.7rem;color:var(--gray);margin-left:auto;"></span>
+  </div>
+
+  <div class="security-grid">
+    <div class="security-card reveal">
+      <h4>HTTPS / TLS Encryption</h4>
+      <p>All data in transit is encrypted. No plaintext. Cloudflare handles certificate issuance and renewal.</p>
+    </div>
+    <div class="security-card reveal">
+      <h4>Static Hosting</h4>
+      <p>No backend server means no server to exploit. GitHub Pages eliminates an entire attack surface category.</p>
+    </div>
+    <div class="security-card reveal">
+      <h4>DDoS &amp; DNS Protection</h4>
+      <p>Cloudflare proxies all traffic, absorbs volumetric attacks, and provides secure DNS resolution.</p>
+    </div>
+    <div class="security-card reveal">
+      <h4>Principle of Least Privilege</h4>
+      <p>The site exposes only what it needs to. Contact email gated behind CAPTCHA to prevent scraping and spam.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTACT ────────────────────────────────── -->
+<section id="contact">
+  <p class="section-label">// 04 — Contact</p>
+  <h2>Get In Touch</h2>
+  <div class="contact-inner">
+
+    <div>
+      <p class="contact-blurb">
+        Have a project, opportunity, or question? Reach out directly.
+        Email is CAPTCHA-protected — one less thing for scrapers.
+      </p>
+      <!--
+        CAPTCHA EMAIL SETUP:
+        Option A (easiest): Use mailto: and add hcaptcha or a Cloudflare Turnstile
+        widget before revealing the address via JS.
+        Option B: Use a Formspree / Web3Forms endpoint (free tier) — they handle
+        CAPTCHA for you.
+        Replace this link with your actual email endpoint:
+      -->
+      <a href="mailto:olivertewalt.pro@gmail.com" class="email-btn">
+        <span>✉</span> Send Email
+      </a>
+      <p class="captcha-note">// CAPTCHA protected</p>
+    </div>
+
+    <div class="socials">
+      <!-- Replace each href with your actual profile URLs -->
+      <a href="https://linktr.ee/wrotebyoliver" target="_blank" rel="noopener" class="social-link">
+        <span class="social-icon">Link Tree</span>
+        <span>https://linktr.ee/wrotebyoliver</span>
+      </a>
+      <a href="https://github.com/tewaltpro" target="_blank" rel="noopener" class="social-link">
+        <span class="social-icon">GitHub</span>
+        <span>github.com/tewaltpro</span>
+      </a>
+      <!-- Add more socials here as needed -->
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────── -->
+<footer>
+  <span>// Built by Oliver Tewalt — Hosted on GitHub Pages + Cloudflare</span>
+</footer>
+
+
+<script>
+  /* ── ACTIVE NAV ON SCROLL ─────────────────────── */
+  const sections = ['about', 'projects', 'contact'];
+  const navLinks = { about: document.getElementById('nav-about'), projects: document.getElementById('nav-projects'), contact: document.getElementById('nav-contact') };
+
+  function updateNav() {
+    let current = '';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 160) current = id;
+    });
+    sections.forEach(id => navLinks[id].classList.toggle('active', id === current));
+  }
+
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  /* ── SCROLL REVEAL ────────────────────────────── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── CAPSTONE AUTO-HIDE (Apr 25, 2025) ─────────── */
+  const HIDE_DATE = new Date('2025-04-25T00:00:00');
+  const capstoneEl = document.getElementById('capstone');
+  const countdownEl = document.getElementById('capstone-countdown');
+
+  function updateCapstone() {
+    const now = new Date();
+    if (now >= HIDE_DATE) {
+      if (capstoneEl) capstoneEl.style.display = 'none';
+    } else {
+      const diff = HIDE_DATE - now;
+      const days  = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      if (countdownEl) countdownEl.textContent = `// disappears in ${days}d ${hours}h`;
+    }
+  }
+
+  updateCapstone();
+  setInterval(updateCapstone, 60000);
+</script>
+</body>
+</html>
