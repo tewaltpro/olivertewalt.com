@@ -719,7 +719,7 @@
     let current = '';
     sections.forEach(id => {
       const el = document.getElementById(id);
-      if (el && window.scrollY >= el.offsetTop - 160) current = id;
+      if (el && window.scrollY >= el.offsetTop -220) current = id;
     });
     sections.forEach(id => navLinks[id].classList.toggle('active', id === current));
   }
@@ -734,7 +734,7 @@
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  /* ── CAPSTONE AUTO-HIDE (Apr 25, 2025) ─────────── */
+  /* ── CAPSTONE AUTO-HIDE (Apr 25, 2026) ─────────── */
   const HIDE_DATE = new Date('2026-04-25T00:00:00');
   const capstoneEl = document.getElementById('capstone');
   const countdownEl = document.getElementById('capstone-countdown');
