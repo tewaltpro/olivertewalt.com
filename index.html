@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <script src="https://web3forms.com/client/script.js" async defer></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Oliver Tewalt — Cybersecurity Portfolio</title>
@@ -503,6 +505,59 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* -- CAPTCHA -- */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: var(--gray);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: var(--blue);
+    }
+
+    .contact-form button[type="submit"] {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 3px;
+      padding: 0.85rem 1.6rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      align-self: flex-start;
+    }
+
+    .contact-form button[type="submit"]:hover {
+      background: var(--blue-dim);
+    }
+
   </style>
 </head>
 <body>
@@ -674,20 +729,15 @@
         Have a project, opportunity, or question? Reach out directly.
         Email is CAPTCHA-protected — one less thing for scrapers.
       </p>
-      <!--
-        CAPTCHA EMAIL SETUP:
-        Option A (easiest): Use : and add hcaptcha or a Cloudflarmailtoe Turnstile
-        widget before revealing the address via JS.
-        Option B: Use a Formspree / Web3Forms endpoint (free tier) — they handle
-        CAPTCHA for you.
-        Replace this link with your actual email endpoint:
-      -->
+
       <form action="https://api.web3forms.com/submit" method="POST">
         <input type="hidden" name="access_key" value="32e865e2-5653-42c5-a3fb-39a6db8ac76e">
-        <input type="text" name="name" required>
-        <input type="email" name="email" required>
-        <textarea name="message" required></textarea>
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <textarea name="message" placeholder="Message" rows="5" style="resize: none;" required></textarea>
+        <input type="checkbox" name="botcheck" style="display:none">
         <button type="submit">Submit</button>
+        <!-- class="contact-form" -->
       </form>
       <p class="captcha-note">// CAPTCHA protected</p>
     </div>
