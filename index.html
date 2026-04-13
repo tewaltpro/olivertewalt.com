@@ -510,13 +510,20 @@
     }
 
     /* -- CAPTCHA -- */
-    .contact-form * {
+     * {
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
       margin-top: 1.5rem;
       display: block;
       width: 100%;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
     }
 
     .contact-form input,
@@ -556,7 +563,6 @@
       padding: 0.85rem 1.6rem;
       cursor: pointer;
       transition: background 0.2s;
-      align-self: flex-start;
     }
 
     .contact-form button[type="submit"]:hover {
@@ -592,7 +598,7 @@
   </div>
 </section>
 
-<!-- ── ABOUT ─────────────────────────────────── -->
+<!-- ── ABOUT ───────────────────────────.contact-form──────── -->
 <section id="about">
   <p class="section-label">// 01 — About</p>
   <h2>Who I Am</h2>
@@ -735,14 +741,14 @@
         Email is CAPTCHA-protected — one less thing for scrapers.
       </p>
 
-      <form action="https://api.web3forms.com/submit" method="POST">
+      <form id="form" class="contact-form" action="https://api.web3forms.com/submit" method="POST">
         <input type="hidden" name="access_key" value="32e865e2-5653-42c5-a3fb-39a6db8ac76e">
         <input type="text" name="name" placeholder="Name" required>
         <input type="email" name="email" placeholder="Email" required>
         <textarea name="message" placeholder="Message" rows="5" style="resize: none;" required></textarea>
         <input type="checkbox" name="botcheck" style="display:none">
         <button type="submit">Submit</button>
-        <!-- class="contact-form" -->
+        class="contact-form"
       </form>
       <p class="captcha-note">// CAPTCHA protected</p>
     </div>
