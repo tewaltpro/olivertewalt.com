@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CyberEthos | Oliver Tewalt</title>
+
+<style>
+:root{
+    --bg:#ffffff;
+    --surface:#f7f7f7;
+    --text:#111111;
+    --muted:#666666;
+    --border:#dddddd;
+    --accent:#000000;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+}
+
+.container{
+    width:min(900px,90%);
+    margin:auto;
+}
+
+header{
+    padding:90px 0 70px;
+    border-bottom:1px solid var(--border);
+}
+
+.hero-label{
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    color:var(--muted);
+    font-size:.75rem;
+    margin-bottom:12px;
+}
+
+h1{
+    font-size:3.2rem;
+    font-weight:700;
+    margin-bottom:20px;
+}
+
+.subtitle{
+    font-size:1.15rem;
+    color:var(--muted);
+    max-width:700px;
+}
+
+section{
+    padding:70px 0;
+}
+
+h2{
+    font-size:1.8rem;
+    margin-bottom:18px;
+}
+
+p{
+    margin-bottom:18px;
+}
+
+.feature-list{
+    display:grid;
+    gap:18px;
+    margin-top:25px;
+}
+
+.feature{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:22px;
+}
+
+.feature h3{
+    margin-bottom:8px;
+}
+
+.policy{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:35px;
+}
+
+.policy h3{
+    margin-top:28px;
+    margin-bottom:10px;
+}
+
+.policy h3:first-of-type{
+    margin-top:18px;
+}
+
+footer{
+    border-top:1px solid var(--border);
+    padding:40px 0;
+    color:var(--muted);
+    text-align:center;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="hero-label">Oliver Tewalt</div>
+        <h1>CyberEthos</h1>
+
+        <p class="subtitle">
+            CyberEthos is a lightweight digital accountability tool that encourages
+            ethical and intentional technology use. Rather than monitoring users,
+            it serves as a quiet reminder that every action online carries real-world
+            responsibility.
+        </p>
+    </div>
+</header>
+
+<section>
+    <div class="container">
+
+        <h2>About the Project</h2>
+
+        <p>
+            CyberEthos is designed to promote mindful decision-making while using a computer.
+            Through gentle prompts and optional accountability features, it helps users pause,
+            reflect, and make choices that align with their values.
+        </p>
+
+        <div class="feature-list">
+
+            <div class="feature">
+                <h3>Reflection Prompts</h3>
+                <p>
+                    Brief reminders before uploads and downloads encourage intentional,
+                    responsible online behavior without interrupting normal workflows.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Panic Mode</h3>
+                <p>
+                    Instantly disconnect network access and close selected applications
+                    when a moment of accountability is needed.
+                </p>
+            </div>
+
+            <div class="feature">
+                <h3>Privacy First</h3>
+                <p>
+                    No accounts. No cloud storage. No telemetry. Everything stays on
+                    your own computer.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section>
+<div class="container">
+
+<div class="policy">
+
+<h2>Privacy Policy</h2>
+
+<p><strong>Last updated:</strong> July 26, 2026</p>
+
+<p>
+CyberEthos does not collect, store, or transmit any personal information to any server.
+All app settings (hotkey configuration, feature toggles, and local usage counters)
+are stored only on your own device in a local settings file and are never sent anywhere.
+</p>
+
+<h3>Network and System Access</h3>
+
+<p>
+CyberEthos can optionally disconnect network adapters and close specific applications
+when the <strong>Panic Mode</strong> feature is triggered. These actions are performed
+locally on your device and are not logged, stored, or transmitted.
+</p>
+
+<h3>Browser Extension</h3>
+
+<p>
+The CyberEthos browser extension observes file uploads and downloads only to display
+a brief reflection prompt before they proceed. It does not log, store, transmit,
+or analyze the files or their contents.
+</p>
+
+<h3>Third-Party Links</h3>
+
+<p>
+The app's <strong>Learn</strong> and <strong>Support</strong> sections link to external
+websites (such as staysafeonline.org, connectsafely.org, and cybercivilrights.org).
+These sites maintain their own independent privacy practices, which CyberEthos
+does not control.
+</p>
+
+<h3>Contact</h3>
+
+<p>
+Questions about this policy can be sent to
+<a href="mailto:olivertewalt.pro@gmail.com">olivertewalt.pro@gmail.com</a>.
+</p>
+
+</div>
+
+</div>
+</section>
+
+<footer>
+    © 2026 Oliver Tewalt • CyberEthos
+</footer>
+
+</body>
+</html>
